@@ -12,3 +12,5 @@ CREATE CSS PAGE
 CREATE HTML PAGE
 
 CREATE JS PAGE
+
+These edits should be on EditingBranch
