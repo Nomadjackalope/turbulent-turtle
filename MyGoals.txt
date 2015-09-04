@@ -1,0 +1,42 @@
+Not a complete solution but a good one. I would have to use three.js to really do this properly I think.
+
+//---- VARIABLES ----
+
+Task - Name, start-time, end-time, taskId
+
+Array of tasks
+
+
+//---- DIV CLASSES ----
+
+day
+
+halfHour
+
+//---- DIV ID ----
+
+task id
+
+
+//---- GRID ----
+
+Create Grid - large vertical divs filled with horizontal divs that respond to clicks.
+
+Display current timeLine - create SVG line that fills vertical divs?
+
+on click create - new task object with start time & set freshTask = true;
+on click hold - update time of task object
+on click-release - set editable text in new task = true & add task to array of tasks
+
+on Enter pressed - if(freshTask) {freshTask = !freshTask & task name set to text & arrow to end time & checkTasks()} 
+
+on text entered - place suggestion as end of word? place suggestion in div below start time
+	& get suggestion from array of tasks
+	
+checkTasks() { forall(taskArray) {if name == taskArray(x).name then taskId = taskArray(x).taskId}
+
+//---- TASKLIST ----
+
+Create Tasklist - thin vertical div placed on left that displays the array of tasks
+
+on click - highlights all tasks with that name blue 

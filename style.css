@@ -2,3 +2,14 @@ body {
 	font: x-large bold;
 	font-family: sans-serif;
 }
+
+.calendar .day {
+	display: inline-block;
+}
+
+.day {
+	border: 4px solid #000;
+	width: 12%;
+	height: 100%;
+	font-size: 2.9vh;
+}
