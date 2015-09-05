@@ -24,8 +24,8 @@ Create Grid - large vertical divs filled with horizontal divs that respond to cl
 
 Display current timeLine - create SVG line that fills vertical divs?
 
-on click create - new task object with start time & set freshTask = true;
-on click hold - update time of task object
+on click-create - new task object with start time & set freshTask = true;
+on click-hold - update time of task object
 on click-release - set editable text in new task = true & add task to array of tasks
 
 on Enter pressed - if(freshTask) {freshTask = !freshTask & task name set to text & arrow to end time & checkTasks()} 

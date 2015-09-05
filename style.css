@@ -8,8 +8,16 @@ body {
 }
 
 .day {
-	border: 4px solid #000;
+	border: 1px solid #000;
 	width: 12%;
 	height: 100%;
 	font-size: 2.9vh;
+}
+
+.halfHour {
+	border: 1px dashed deepskyblue
+}
+
+.halfHour:hover {
+	border: 1px solid mediumseagreen;
 }
