@@ -3,8 +3,14 @@ body {
 	font-family: sans-serif;
 }
 
+.calendar {
+	border: 2px solid #095;
+	height: 100%;
+}
+
 .calendar .day {
 	display: inline-block;
+	
 }
 
 .day {

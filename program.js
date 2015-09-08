@@ -39,7 +39,7 @@ function createLines() {
 			halfHour.setAttribute("onmousedown", "createTask(this)");
 			halfHour.setAttribute("onmousemove", "updateTime(this)");
 			halfHour.setAttribute("onmouseup", "finalizeTaskTime(this)");
-            halfHour.innerHTML=j + ", " + i;
+            //halfHour.innerHTML= "-";
             day.appendChild(halfHour);
 		}
 	}	
@@ -47,13 +47,17 @@ function createLines() {
 
 function createTask(halfHour) {
 	
+	if(freshTask) {
+		document.getElementById('textinput').parentElement.remove(document.getElementById('textinput'));
+	}
+	
 	tasksArr.push(new Task("", Number(halfHour.id), Number(halfHour.id), 0));
 	
 }
 
 function updateTime(halfHour) {
 	
-	tasksArr[tasksArr.length - 1].end = Number(halfHour.id);
+	tasksArr.last().end = Number(halfHour.id);
 	
 }
 
@@ -62,13 +66,12 @@ function finalizeTaskTime(halfHour) {
 	tasksArr[tasksArr.length - 1].end = Number(halfHour.id);
 	freshTask = true;
 	
-	alert(halfHour.parentElement.hasChild);
-	
 	var halfHourStart = halfHour;
 	
 	halfHourStart.innerHTML="";
 	
 	var taskNameTextInput = document.createElement("INPUT");
+	taskNameTextInput.setAttribute("id", "textinput");
 	taskNameTextInput.setAttribute("type", "text");
 	taskNameTextInput.setAttribute("onkeydown", "finalizeTask(event, this)");
 	
@@ -80,7 +83,7 @@ function finalizeTaskTime(halfHour) {
 
 	halfHourStart.lastChild.focus();
 		
-	alert(tasksArr.last().start + ", " + tasksArr.last().end);
+	//alert(tasksArr.last().start + ", " + tasksArr.last().end);
 	
 }
 
@@ -98,15 +101,45 @@ function finalizeTask(event, taskNameInput) {
 		taskNameInput.parentElement.removeChild(taskNameInput);
 	}
 	
+	freshTask = false;
 	
 }
 
 // Returns actual time of day in the format: hrs. Ex. dayBegin = 8, halfHour = 3 -> return = 9.5
 function getRealTime(halfHour) {
-	return dayBegin + (3 * 0.5);
+	return dayBegin + halfHour * 0.5;
 }
 
 // Returns halfHour. Ex. dayBegin = 8, realTime = 9.5 -> return = 3
 function getHalfHour(realTime) {
 	return (realTime - dayBegin) / 0.5;
+}
+
+// Returns actual time formatted properly Ex. 
+function getRealTimeFormatted(realTime) {
+	var formatted = "";
+	var isHalf;
+	
+	isHalf = realTime % 1 != 0;
+	
+	if(isHalf) {
+		realTime -= 0.5;
+	}
+	
+	if(realTime > 12) {
+		formatted += (realTime - 12);
+	} else {
+		formatted += realTime;
+	}
+	
+	formatted += ":"
+	
+	if(isHalf) {
+		formatted += "30";
+	} else {
+		formatted += "00";
+	}
+	
+	
+	return formatted; 
 }
