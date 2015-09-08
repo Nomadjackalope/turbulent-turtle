@@ -7,6 +7,13 @@ function Task(name, start, end, id) {
 
 var tasksArr = [];
 
+// add new last() method:
+if (!Array.prototype.last){
+    Array.prototype.last = function(){
+        return this[this.length - 1];
+    };
+};
+
 var freshTask = false;
 
 
@@ -24,7 +31,7 @@ function createLines() {
 		for(var j = 0; j < 27; j++) {
 			// Add lines
 			var halfHour = document.createElement("div");
-            halfHour.setAttribute("id", "" + j);
+            halfHour.setAttribute("id", "" + (i * 100 + j));
             halfHour.setAttribute("class", "halfHour");
 			halfHour.setAttribute("onmousedown", "createTask(this)");
 			halfHour.setAttribute("onmousemove", "updateTime(this)");
@@ -54,22 +61,31 @@ function finalizeTaskTime(halfHour) {
 	
 	var taskNameTextInput = document.createElement("INPUT");
 	taskNameTextInput.setAttribute("type", "text");
-	taskNameTextInput.setAttribute("onkeydown", "finalizeTask(this)");
+	taskNameTextInput.setAttribute("onkeydown", "finalizeTask(event, this)");
 	
 	halfHour.appendChild(taskNameTextInput);
 	
-	halfHour.innerHtml="";
+	//halfHour.innerHTML="";
 	
 	halfHour.lastChild.focus();
 		
-	//alert(tasksArr[tasksArr.length - 1].end);
+	alert(tasksArr.last().start + ", " + tasksArr.last().end);
 	
 }
 
-function finalizeTask(taskNameInput) {
+function finalizeTask(event, taskNameInput) {
 	
-	taskNameInput.parentElement.removeChild(taskNameInput);
-	
+	if(event.keyCode == 13) {
+		
+		//Autocomplete to an available task
+		//If available task copy id
+		
+		//If no available task simply add name
+		tasksArr.last().name = taskNameInput.value;
+		
+		document.getElementById(tasksArr.last().start).innerHTML = tasksArr.last().name;
+		taskNameInput.parentElement.removeChild(taskNameInput);
+	}
 	
 	
 }
