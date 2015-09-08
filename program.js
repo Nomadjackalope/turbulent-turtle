@@ -74,13 +74,11 @@ function finalizeTaskTime(halfHour) {
 	
 	halfHourStart.appendChild(taskNameTextInput);
 	
-<<<<<<< HEAD
 	//halfHour.innerHTML="";
 	
 	halfHour.lastChild.focus();
-=======
+
 	halfHourStart.lastChild.focus();
->>>>>>> b5f06b0387a87ceb5eb6e9dfcec78dbabd98fe25
 		
 	alert(tasksArr.last().start + ", " + tasksArr.last().end);
 	
