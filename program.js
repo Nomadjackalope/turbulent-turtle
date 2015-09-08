@@ -16,6 +16,9 @@ if (!Array.prototype.last){
 
 var freshTask = false;
 
+// Hour of the day to begin with.
+var dayBegin = 8;
+
 
 function createLines() {
 	var calendar = document.getElementById('week');
@@ -59,15 +62,25 @@ function finalizeTaskTime(halfHour) {
 	tasksArr[tasksArr.length - 1].end = Number(halfHour.id);
 	freshTask = true;
 	
+	alert(halfHour.parentElement.hasChild);
+	
+	var halfHourStart = halfHour;
+	
+	halfHourStart.innerHTML="";
+	
 	var taskNameTextInput = document.createElement("INPUT");
 	taskNameTextInput.setAttribute("type", "text");
 	taskNameTextInput.setAttribute("onkeydown", "finalizeTask(event, this)");
 	
-	halfHour.appendChild(taskNameTextInput);
+	halfHourStart.appendChild(taskNameTextInput);
 	
+<<<<<<< HEAD
 	//halfHour.innerHTML="";
 	
 	halfHour.lastChild.focus();
+=======
+	halfHourStart.lastChild.focus();
+>>>>>>> b5f06b0387a87ceb5eb6e9dfcec78dbabd98fe25
 		
 	alert(tasksArr.last().start + ", " + tasksArr.last().end);
 	
@@ -90,3 +103,12 @@ function finalizeTask(event, taskNameInput) {
 	
 }
 
+// Returns actual time of day in the format: hrs. Ex. dayBegin = 8, halfHour = 3 -> return = 9.5
+function getRealTime(halfHour) {
+	return dayBegin + (3 * 0.5);
+}
+
+// Returns halfHour. Ex. dayBegin = 8, realTime = 9.5 -> return = 3
+function getHalfHour(realTime) {
+	return (realTime - dayBegin) / 0.5;
+}
