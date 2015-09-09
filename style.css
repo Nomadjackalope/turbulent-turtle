@@ -1,35 +1,65 @@
-body {
-	font: x-large bold;
+table {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	
+	display: table;
+	
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border-color: grey;
+	
+	border: 1px solid #aaa;
+	
+	table-layout: fixed;
+	width: 100%;
+	
 	font-family: sans-serif;
 }
 
-.calendar {
-	border: 2px solid #095;
-	height: 100%;
+tr {
+	display: table-row;
+	vertical-align: top;
 }
 
-.calendar .day {
-	display: inline-block;
+td {
+	border-left: 1px solid #aaa;
+	display: table-cell;
+}
+
+.hourSlot {
+	height: 42px;
+}
+
+.priHalfHour {
+	height: 20px;
+	border-bottom: 1px dashed #555;
+	border-top: 1px solid #aaa;
 	
+	margin-top: -2px;
+
 }
 
-.day {
-	border: 1px solid #000;
-	width: 12%;
-	height: 100%;
-	font-size: 2.9vh;
+.secHalfHour {
+	height: 20px;
+	margin-top: -1px;
 }
 
-.halfHour {
-	border: 1px dashed deepskyblue;
-	height: 3.49%;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+.times {
+	display: block;
+	width: 60px;
+	text-align: right;
 }
 
-.halfHour:hover {
-	border: 1px solid mediumseagreen;
+.time {
+	text-align: right;
+	height: 42px;
+	border-bottom: 1px solid #aaa;
+	padding-right: 3px;
+	width: 60px;
+}
+
+.prihalfHour:hover, .secHalfHour:hover {
+	border: 1px solid salmon;
+	margin-top: -2px;
+	margin-bottom: -1px;
 }

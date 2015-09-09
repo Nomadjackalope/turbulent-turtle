@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="UTF-8">
 
 		<link href='style.css' rel='stylesheet'>
 		<script src="program.js"></script>
@@ -8,15 +9,20 @@
 	
 	</head>
 	<body>
-		<div class="calendar" id="week">
-			
-		</div>
+		<table class="calendar" id='week'>
+			<tr class="days">
+				<td style="height: 20px; border-bottom: 1px solid #ccc"></td>
+				<td class="day1">Sunday</td>
+				<td class="day2">Monday</td>
+				<td class="day3">Tuesday</td>
+				<td class="day4">Wednesday</td>
+				<td class="day5">Thursday</td>
+				<td class="day6">Friday</td>
+				<td class="day7">Saturday</td>
+			</tr>
+		</table>
 		
-		<script> 
-		
-		createLines();
-		
-		 </script>
+		<script>createLines()</script>
 		
 	</body>
 </html>

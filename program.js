@@ -23,24 +23,64 @@ var dayBegin = 8;
 function createLines() {
 	var calendar = document.getElementById('week');
 	
-	// Make 7 rows
-	for(var i = 0; i < 7; i++) {
-		var day = document.createElement("div");
-		day.setAttribute("id", "day" + i);
-        day.setAttribute("class", "day");
-		calendar.appendChild(day);
+	// Make 13 hour rows
+	for(var i = 0; i < 13; i++) {
+		var hourSlot = document.createElement("tr");
+		hourSlot.setAttribute("id", "hourSlot" + i);
+        hourSlot.setAttribute("class", "hourSlot");
+		calendar.appendChild(hourSlot);
 		
-		// Make 27 column lines
-		for(var j = 0; j < 27; j++) {
-			// Add lines
-			var halfHour = document.createElement("div");
-            halfHour.setAttribute("id", "" + (i * 100 + j));
-            halfHour.setAttribute("class", "halfHour");
-			halfHour.setAttribute("onmousedown", "createTask(this)");
-			halfHour.setAttribute("onmousemove", "updateTime(this)");
-			halfHour.setAttribute("onmouseup", "finalizeTaskTime(this)");
-            //halfHour.innerHTML= "-";
-            day.appendChild(halfHour);
+		var isOdd;
+		if(i % 2 != 0) {
+			isOdd = true;
+		} else {
+			isOdd = false;
+		}
+		
+		// Add time column
+		var time = document.createElement("td");
+		time.setAttribute("class", "time");
+		if(i + dayBegin > 12) {
+			time.innerHTML = (i + dayBegin - 12) + "pm";
+		} else {
+			time.innerHTML = (i + dayBegin) + "am";
+		}
+		
+		hourSlot.appendChild(time);
+		
+		if(isOdd) {
+				time.style.backgroundColor = "#ececec";
+		}
+		
+		
+		
+		// Make 7 day columns
+		for(var j = 0; j < 7; j++) {
+			// Add days
+			var hour = document.createElement("td");
+            hour.setAttribute("id", "" + (i * 100 + j));
+            hour.setAttribute("class", "hour");
+			hour.setAttribute("onmousedown", "createTask(this)");
+			hour.setAttribute("onmousemove", "updateTime(this)");
+			hour.setAttribute("onmouseup", "finalizeTaskTime(this)");
+            
+			if(isOdd) {
+				hour.style.backgroundColor = "#ececec";
+			}
+			
+			hourSlot.appendChild(hour);
+			
+		
+			// Add both half hour pieces
+			var halfHourPri = document.createElement("div");
+			halfHourPri.setAttribute("class", "priHalfHour");
+			
+			var halfHourSec = document.createElement("div");
+			halfHourSec.setAttribute("class", "secHalfHour");
+			
+			
+			hour.appendChild(halfHourPri);
+			hour.appendChild(halfHourSec);
 		}
 	}	
 }
