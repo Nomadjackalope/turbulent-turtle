@@ -49,7 +49,7 @@ function createLines() {
 		hourSlot.appendChild(time);
 		
 		if(isOdd) {
-				time.style.backgroundColor = "#ececec";
+			time.style.backgroundColor = "#ececec";
 		}
 		
 		
@@ -58,11 +58,8 @@ function createLines() {
 		for(var j = 0; j < 7; j++) {
 			// Add days
 			var hour = document.createElement("td");
-            hour.setAttribute("id", "" + (i * 100 + j));
+            
             hour.setAttribute("class", "hour");
-			hour.setAttribute("onmousedown", "createTask(this)");
-			hour.setAttribute("onmousemove", "updateTime(this)");
-			hour.setAttribute("onmouseup", "finalizeTaskTime(this)");
             
 			if(isOdd) {
 				hour.style.backgroundColor = "#ececec";
@@ -70,13 +67,22 @@ function createLines() {
 			
 			hourSlot.appendChild(hour);
 			
+			var iAdj = i * 2;
 		
 			// Add both half hour pieces
 			var halfHourPri = document.createElement("div");
 			halfHourPri.setAttribute("class", "priHalfHour");
+			halfHourPri.setAttribute("id", "" + (j * 100 + iAdj));
+			halfHourPri.setAttribute("onmousedown", "createTask(this)");
+			halfHourPri.setAttribute("onmousemove", "updateTime(this)");
+			halfHourPri.setAttribute("onmouseup", "finalizeTaskTime(this)");
 			
 			var halfHourSec = document.createElement("div");
 			halfHourSec.setAttribute("class", "secHalfHour");
+			halfHourSec.setAttribute("id", "" + (j * 100 + iAdj + 1));
+			halfHourSec.setAttribute("onmousedown", "createTask(this)");
+			halfHourSec.setAttribute("onmousemove", "updateTime(this)");
+			halfHourSec.setAttribute("onmouseup", "finalizeTaskTime(this)");
 			
 			
 			hour.appendChild(halfHourPri);
@@ -88,7 +94,7 @@ function createLines() {
 function createTask(halfHour) {
 	
 	if(freshTask) {
-		document.getElementById('textinput').parentElement.remove(document.getElementById('textinput'));
+		removeTextInput();
 	}
 	
 	tasksArr.push(new Task("", Number(halfHour.id), Number(halfHour.id), 0));
@@ -96,32 +102,31 @@ function createTask(halfHour) {
 }
 
 function updateTime(halfHour) {
-	
+	// As mouse moves, get new end time
 	tasksArr.last().end = Number(halfHour.id);
 	
 }
 
+// Onmouseup gets endtime and sets task to that length, opens a text input ready for typing
 function finalizeTaskTime(halfHour) {
 	
-	tasksArr[tasksArr.length - 1].end = Number(halfHour.id);
+	// Sets endtime on the task being made
+	tasksArr.last().end = Number(halfHour.id);
+	
+	// Sets freshTask to true so that on new task the input might be removed
 	freshTask = true;
 	
-	var halfHourStart = halfHour;
+	// Clears end time text
+	halfHour.innerHTML="";
 	
-	halfHourStart.innerHTML="";
-	
+	// Creates input box	
 	var taskNameTextInput = document.createElement("INPUT");
 	taskNameTextInput.setAttribute("id", "textinput");
 	taskNameTextInput.setAttribute("type", "text");
 	taskNameTextInput.setAttribute("onkeydown", "finalizeTask(event, this)");
-	
-	halfHourStart.appendChild(taskNameTextInput);
-	
-	//halfHour.innerHTML="";
+	halfHour.appendChild(taskNameTextInput);
 	
 	halfHour.lastChild.focus();
-
-	halfHourStart.lastChild.focus();
 		
 	//alert(tasksArr.last().start + ", " + tasksArr.last().end);
 	
@@ -136,9 +141,10 @@ function finalizeTask(event, taskNameInput) {
 		
 		//If no available task simply add name
 		tasksArr.last().name = taskNameInput.value;
-		
 		document.getElementById(tasksArr.last().start).innerHTML = tasksArr.last().name;
-		taskNameInput.parentElement.removeChild(taskNameInput);
+		
+		// Remove text input box
+		removeTextInput();
 	}
 	
 	freshTask = false;
@@ -182,4 +188,11 @@ function getRealTimeFormatted(realTime) {
 	
 	
 	return formatted; 
+}
+
+// Removes textinput
+function removeTextInput() {
+	var node = document.getElementById('textinput');
+
+	node.parentElement.removeChild(node);
 }
