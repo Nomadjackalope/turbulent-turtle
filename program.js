@@ -5,6 +5,8 @@ function Task(name, start, end, id) {
 	this.id = id;	
 }
 
+var idCount = 0;
+
 var tasksArr = [];
 
 // add new last() method:
@@ -74,14 +76,14 @@ function createLines() {
 			halfHourPri.setAttribute("class", "priHalfHour");
 			halfHourPri.setAttribute("id", "" + (j * 100 + iAdj));
 			halfHourPri.setAttribute("onmousedown", "createTask(this)");
-			halfHourPri.setAttribute("onmousemove", "updateTime(this)");
+			//halfHourPri.setAttribute("onmousemove", "updateTime(this)");
 			halfHourPri.setAttribute("onmouseup", "finalizeTaskTime(this)");
 			
 			var halfHourSec = document.createElement("div");
 			halfHourSec.setAttribute("class", "secHalfHour");
 			halfHourSec.setAttribute("id", "" + (j * 100 + iAdj + 1));
 			halfHourSec.setAttribute("onmousedown", "createTask(this)");
-			halfHourSec.setAttribute("onmousemove", "updateTime(this)");
+			//halfHourSec.setAttribute("onmousemove", "updateTime(this)");
 			halfHourSec.setAttribute("onmouseup", "finalizeTaskTime(this)");
 			
 			
@@ -93,11 +95,13 @@ function createLines() {
 
 function createTask(halfHour) {
 	
+	console.log("create");
+	
 	if(freshTask) {
 		removeTextInput();
 	}
 	
-	tasksArr.push(new Task("", Number(halfHour.id), Number(halfHour.id), 0));
+	tasksArr.push(new Task("", Number(halfHour.id), Number(halfHour.id), idCount++));
 	
 }
 
@@ -113,20 +117,23 @@ function finalizeTaskTime(halfHour) {
 	// Sets endtime on the task being made
 	tasksArr.last().end = Number(halfHour.id);
 	
+	// Gets start time and associated halfHour
+	var halfHourStart = document.getElementById(tasksArr.last().start);
+	
 	// Sets freshTask to true so that on new task the input might be removed
 	freshTask = true;
 	
 	// Clears end time text
-	halfHour.innerHTML="";
+	//halfHour.innerHTML="";
 	
 	// Creates input box	
 	var taskNameTextInput = document.createElement("INPUT");
 	taskNameTextInput.setAttribute("id", "textinput");
 	taskNameTextInput.setAttribute("type", "text");
 	taskNameTextInput.setAttribute("onkeydown", "finalizeTask(event, this)");
-	halfHour.appendChild(taskNameTextInput);
+	halfHourStart.appendChild(taskNameTextInput);
 	
-	halfHour.lastChild.focus();
+	halfHourStart.lastChild.focus();
 		
 	//alert(tasksArr.last().start + ", " + tasksArr.last().end);
 	
@@ -145,6 +152,10 @@ function finalizeTask(event, taskNameInput) {
 		
 		// Remove text input box
 		removeTextInput();
+		
+		// Save task locally
+		console.log(saveTask());
+		
 	}
 	
 	freshTask = false;
@@ -192,7 +203,52 @@ function getRealTimeFormatted(realTime) {
 
 // Removes textinput
 function removeTextInput() {
-	var node = document.getElementById('textinput');
+	if(document.getElementById('textinput') != null) {
+		var node = document.getElementById('textinput').parentElement;
 
-	node.parentElement.removeChild(node);
+		node.removeChild(node.firstChild);
+	}
+}
+
+//--------------------- Storage ---------------------//
+
+function supports_html5_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch (e) {
+    return false;
+  }
+}
+
+
+function saveTask() {
+	if (!supports_html5_storage()) { return false; };
+	
+	for(var i = 0; i < tasksArr.length; i++) {
+		localStorage["task." + i + ".id"] = tasksArr[i].id;
+		localStorage["task." + i + ".name"] = tasksArr[i].name;
+		localStorage["task." + i + ".start"] = tasksArr[i].start;
+		localStorage["task." + i + ".end"] = tasksArr[i].end;
+	}
+	
+	return true;
+}
+
+function resume() {
+	//Checks for local storage support
+	if(!supports_html5_storage()) { return false; };
+	
+	// Populates the tasksArr & adds tasks to calendar
+	// localstorage.length is the total length of all the elements
+	for(var i = 0; i < localStorage.length / 4; i++) {
+		tasksArr.push(new Task(localStorage["task." + i + ".name"],
+			localStorage["task." + i + ".start"],
+			localStorage["task." + i + ".end"],
+			localStorage["task." + i + ".id"]));
+		
+		document.getElementById(tasksArr.last().start).innerHTML = tasksArr.last().name;		
+		
+	}	
+	
+	return true;
 }
