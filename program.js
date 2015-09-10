@@ -26,7 +26,7 @@ function createLines() {
 	var calendar = document.getElementById('week');
 	
 	// Make 13 hour rows
-	for(var i = 0; i < 13; i++) {
+	for(var i = 0; i < 26; i++) {
 		var hourSlot = document.createElement("tr");
 		hourSlot.setAttribute("id", "hourSlot" + i);
         hourSlot.setAttribute("class", "hourSlot");
@@ -41,54 +41,75 @@ function createLines() {
 		
 		// Add time column
 		var time = document.createElement("td");
-		time.setAttribute("class", "time");
-		if(i + dayBegin > 12) {
-			time.innerHTML = (i + dayBegin - 12) + "pm";
-		} else {
-			time.innerHTML = (i + dayBegin) + "am";
-		}
 		
+		if(!isOdd) {
+			if(i/2 + dayBegin > 12) {
+				time.innerHTML = (i/2 + dayBegin - 12) + "pm";
+			} else {
+				time.innerHTML = (i/2 + dayBegin) + "am";
+			}
+			
+			time.setAttribute("class", "priTime");
+		} else {
+			time.setAttribute("class", "secTime");
+		}
 		hourSlot.appendChild(time);
 		
-		if(isOdd) {
+		if(Math.ceil((i+1)/2) % 2 != 0) {
 			time.style.backgroundColor = "#ececec";
 		}
+		
 		
 		
 		
 		// Make 7 day columns
 		for(var j = 0; j < 7; j++) {
 			// Add days
-			var hour = document.createElement("td");
+			//var hour = document.createElement("td");
             
-            hour.setAttribute("class", "hour");
+            //hour.setAttribute("class", "hour");
             
-			if(isOdd) {
-				hour.style.backgroundColor = "#ececec";
-			}
+			//if(isOdd) {
+			//	hour.style.backgroundColor = "#ececec";
+			//}
 			
-			hourSlot.appendChild(hour);
+			//hourSlot.appendChild(hour);
 			
 			var iAdj = i * 2;
+			
+			// If 2nd half hour(or 1st. I haven't checked yet)
+			if(i % 2 == 0) {
 		
 			// Add both half hour pieces
-			var halfHourPri = document.createElement("div");
+			var halfHourPri = document.createElement("td");
 			halfHourPri.setAttribute("class", "priHalfHour");
 			halfHourPri.setAttribute("id", "" + (j * 100 + iAdj));
 			halfHourPri.setAttribute("onmousedown", "createTask(this)");
 			//halfHourPri.setAttribute("onmousemove", "updateTime(this)");
 			halfHourPri.setAttribute("onmouseup", "finalizeTaskTime(this)");
 			
-			var halfHourSec = document.createElement("div");
+			if(Math.ceil((i+1)/2) % 2 != 0) {
+				halfHourPri.style.backgroundColor = "#ececec";
+			}
+			
+			hourSlot.appendChild(halfHourPri);
+			
+			} else {
+			var halfHourSec = document.createElement("td");
 			halfHourSec.setAttribute("class", "secHalfHour");
 			halfHourSec.setAttribute("id", "" + (j * 100 + iAdj + 1));
 			halfHourSec.setAttribute("onmousedown", "createTask(this)");
 			//halfHourSec.setAttribute("onmousemove", "updateTime(this)");
 			halfHourSec.setAttribute("onmouseup", "finalizeTaskTime(this)");
 			
+			if(Math.ceil((i+1)/2) % 2 != 0) {
+				halfHourSec.style.backgroundColor = "#ececec";
+			}
 			
-			hour.appendChild(halfHourPri);
-			hour.appendChild(halfHourSec);
+			hourSlot.appendChild(halfHourSec);
+			}
+			
+			
 		}
 	}	
 }
