@@ -51,6 +51,7 @@ function createLines() {
 			
 			time.setAttribute("class", "priTime");
 		} else {
+			time.innerHTML = "&nbsp";
 			time.setAttribute("class", "secTime");
 		}
 		hourSlot.appendChild(time);
