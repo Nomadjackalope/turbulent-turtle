@@ -12,17 +12,22 @@
 		<div class="taskListSpace">
 			<textarea class="taskList"></textarea>
 		</div>
-		<table class="calendar" id='week'>
-			<tr class="days">
-				<td style="height: 20px; border-bottom: 1px solid #ccc"></td>
-				<td class="day1">Sunday</td>
-				<td class="day2">Monday</td>
-				<td class="day3">Tuesday</td>
-				<td class="day4">Wednesday</td>
-				<td class="day5">Thursday</td>
-				<td class="day6">Friday</td>
-				<td class="day7">Saturday</td>
-			</tr>
+		<table class="calendar">
+			<thead>
+				<tr class="days">
+					<td class="clearButton">Clear week</td>
+					<td class="day1">Sunday</td>
+					<td class="day2">Monday</td>
+					<td class="day3">Tuesday</td>
+					<td class="day4">Wednesday</td>
+					<td class="day5">Thursday</td>
+					<td class="day6">Friday</td>
+					<td class="day7">Saturday</td>
+				</tr>
+			</thead>
+			<tbody id='week'>
+				
+			</tbody>
 		</table>
 		
 		<script>
